@@ -6,6 +6,10 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { File } from '@ionic-native/file';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import jsQR from "jsqr";
+import { FileChooser } from '@ionic-native/file-chooser';
+import { Camera, CameraOptions } from "@ionic-native/camera";
+import { Base64 } from '@ionic-native/base64';
 
 /*
   Generated class for the QrCodeProvider provider.
@@ -23,7 +27,10 @@ export class QrCodeProvider {
                 private socialSharing: SocialSharing,
                 private androidPermissions: AndroidPermissions,
                 private file: File,
-                private barcodeScanner: BarcodeScanner) {
+                private barcodeScanner: BarcodeScanner,
+                private fileChooser: FileChooser,
+                private camera: Camera,
+                private base64: Base64) {
         
     }
 
@@ -52,8 +59,16 @@ export class QrCodeProvider {
     }
 
     getWritePermission(): Promise<boolean> {
+        return this.getPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+    }
+
+    getReadPermission(): Promise<boolean> {
+        return this.getPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE);
+    }
+
+    getPermission(permission: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+            this.androidPermissions.checkPermission(permission)
                 .then((result) => {
                     if (result.hasPermission === true) {
                         resolve(true);
@@ -62,7 +77,7 @@ export class QrCodeProvider {
                     }
                 })
                 .catch((err) => {
-                    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE)
+                    this.androidPermissions.requestPermission(permission)
                         .then((res) => {
                             resolve(true);
                         })
@@ -117,6 +132,73 @@ export class QrCodeProvider {
                 reject(ScannerError.UNKNOW);
             });
         });
+    }
+
+    scanQRCodeFromFile(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            this.fileChooser.open()
+            .then((uri) => {
+                this.getReadPermission()
+                    .then(async (res) => {
+                        const resolvedFilePath: string = await this.filePath.resolveNativePath(uri);
+                        this.base64.encodeFile(resolvedFilePath).then((base64File: string) => {
+                            this.jsqrConversion(base64File)
+                            .then(r => {
+                                console.log(r);
+                                resolve(r);
+                            })
+                            .catch(f => {
+                                console.log(f);
+                                reject(f);
+                            });
+                          }, (err) => {
+                            console.log(err);
+                          });
+                    })
+                    .catch((err) => {
+                        reject('permission denied');
+                    });
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    }
+
+    private async jsqrConversion(content: string): Promise<string> {
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+          
+        return await new Promise<string>((resolve, reject) => {
+
+            const pic = new Image();
+            pic.src = content;
+
+            pic.onload = () => {
+
+                canvas.width = pic.width;
+                canvas.height = pic.height;
+                context.drawImage(pic, 0, 0);
+
+                const image = context.getImageData(0, 0, canvas.width, canvas.height);
+                const result = jsQR(image.data, image.width, image.height);
+
+                if (!result) {
+                    reject('No qrcode');
+                } else {
+                    resolve(result.data);
+                }
+      
+            };
+
+            pic.onerror = (err) => {
+                console.log('load failed', err);
+                reject('Load failed');
+            }
+
+        });
+
     }
 
 }

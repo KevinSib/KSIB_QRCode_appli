@@ -31,19 +31,23 @@ export class ReadQrCodePage extends BasePage {
     }
 
     openFile(): void {
-
+        this.parseQRCode(this.qrCodeProvider.scanQRCodeFromFile());
     }
 
     openScanner(): void {
-        this.qrCodeProvider.scanQRCode()
-            .then((txt) => {
-                this.showMessage('QRCode', 'Le QRCode contient : ' + txt);
-            })
-            .catch((err) => {
-                if (err === ScannerError.UNKNOW) {
-                    this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard.');
-                }
-            });
+        this.parseQRCode(this.qrCodeProvider.scanQRCode());
+    }
+
+    private parseQRCode(action: Promise<string>): void {
+        action
+        .then((txt) => {
+            this.showMessage('QRCode', 'Le QRCode contient : ' + txt);
+        })
+        .catch((err) => {
+            if (err === ScannerError.UNKNOW) {
+                this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard.');
+            }
+        });
     }
 
 }

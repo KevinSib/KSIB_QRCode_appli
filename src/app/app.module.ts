@@ -1,3 +1,5 @@
+import { Base64 } from '@ionic-native/base64';
+import { FileChooser } from '@ionic-native/file-chooser';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { FilePath } from '@ionic-native/file-path';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -21,6 +23,8 @@ import { File } from '@ionic-native/file';
 import { HistoricProvider } from '../providers/historic/historic';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
+import { Camera } from "@ionic-native/camera";
 
 @NgModule({
   declarations: [
@@ -53,7 +57,10 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     FilePath,
     HistoricProvider,
     NativeStorage,  
-    BarcodeScanner
+    BarcodeScanner,
+    FileChooser,
+    Camera,
+    Base64
    ]
 })
 export class AppModule {}
