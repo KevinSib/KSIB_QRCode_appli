@@ -1,7 +1,9 @@
+import { HistoricItem } from './../../models/historic-item.model';
+import { HistoricProvider } from './../../providers/historic/historic';
 import { QrCodeProvider } from './../../providers/qr-code/qr-code';
 import { BasePage } from './../base-page.page';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { QRCodeComponent } from 'angularx-qrcode';
 import domtoimage from 'dom-to-image';
 
@@ -27,9 +29,23 @@ export class CreateQrCodePage extends BasePage {
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
-                private qrCodeProvider: QrCodeProvider) {
-        super();
+                private qrCodeProvider: QrCodeProvider,
+                public alertCtrl: AlertController,
+                private historicProvider: HistoricProvider) {
+        super(alertCtrl);
         this.pageTitle = "Génération d'un QRCode";
+    }
+
+    generate(): void {
+        if (this.qrCodeInput === '' || this.qrCodeInput === null || this.qrCodeInput === undefined) {
+            return;
+        }
+        const newQRCode = new HistoricItem();
+        newQRCode.value = this.qrCodeInput;
+        newQRCode.date = new Date();
+
+        this.historicProvider.addToHistoric(newQRCode);
+        this.qrCodeGenerated = true;
     }
 
     share(): void {
@@ -39,12 +55,12 @@ export class CreateQrCodePage extends BasePage {
             this.qrCodeProvider.shareQRCode(dataUrl);
         })
         .catch((error) => {
-            console.log('error', error);
+            this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard !');
         });
     }
 
     canShowQRCode(): boolean {
-        return this.qrCodeInput !== '' && this.qrCodeInput !== undefined;
+        return this.qrCodeInput !== '' && this.qrCodeInput !== undefined && this.qrCodeGenerated;
     }
 
 }
