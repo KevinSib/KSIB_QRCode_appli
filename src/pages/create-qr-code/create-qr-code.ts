@@ -37,15 +37,15 @@ export class CreateQrCodePage extends BasePage {
     }
 
     generate(): void {
-        
+        if (this.qrCodeInput === '' || this.qrCodeInput === null || this.qrCodeInput === undefined) {
+            return;
+        }
         const newQRCode = new HistoricItem();
         newQRCode.value = this.qrCodeInput;
         newQRCode.date = new Date();
 
         this.historicProvider.addToHistoric(newQRCode);
-
         this.qrCodeGenerated = true;
-
     }
 
     share(): void {

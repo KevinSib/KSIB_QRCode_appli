@@ -67,6 +67,9 @@ export class HistoricProvider {
     }
 
     addToHistoric(item: HistoricItem): Promise<any> {
+        if (item === null || item === undefined || item.value === null) {
+            return Promise.reject('HistoricItem is null or value is not conform');
+        }
         return new Promise((resolve, reject) => {
             this.cachedHistoric.push(item);
             this.saveHistoric()
