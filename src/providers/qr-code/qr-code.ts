@@ -14,7 +14,7 @@ import { File } from '@ionic-native/file';
 @Injectable()
 export class QrCodeProvider {
 
-    static DEFAULT_TEMP_FILENAME: string = 'qrcode.svg';
+    static DEFAULT_TEMP_FILENAME: string = 'qrcode.png';
 
     constructor(public http: HttpClient,
                 private filePath: FilePath,

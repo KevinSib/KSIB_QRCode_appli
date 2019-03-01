@@ -3,6 +3,7 @@ import { BasePage } from './../base-page.page';
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { QRCodeComponent } from 'angularx-qrcode';
+import domtoimage from 'dom-to-image';
 
 /**
  * Generated class for the CreateQrCodePage page.
@@ -32,10 +33,14 @@ export class CreateQrCodePage extends BasePage {
     }
 
     share(): void {
-        const svgData = this.qrCodeRender.el.nativeElement.children[0].outerHTML;
-        const preface = '<?xml version="1.0" standalone="no"?>\r\n';
-        const svgBlob = new Blob([preface, svgData], {type:"image/svg+xml;charset=utf-8"});
-        this.qrCodeProvider.shareQRCode(svgBlob);
+        const svgData = this.qrCodeRender.el.nativeElement;
+        domtoimage.toBlob(svgData)
+        .then((dataUrl) => {
+            this.qrCodeProvider.shareQRCode(dataUrl);
+        })
+        .catch((error) => {
+            console.log('error', error);
+        });
     }
 
     canShowQRCode(): boolean {
