@@ -9,9 +9,15 @@
 <ion-content padding>
     <ion-grid>
         <ion-row>
-            <ion-card>
-                <ion-input [(ngModel)]="qrCodeInput" type="text"></ion-input>
-            </ion-card>
+            <ion-list>
+                <ion-item>
+                    <ion-label fixed>Votre texte</ion-label>
+                    <ion-input type="text" [(ngModel)]="qrCodeInput"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <button ion-button (click)="generate()">Générer</button>
+                </ion-item>
+            </ion-list>
         </ion-row>
         <ion-row>
             <qrcode [qrdata]="qrCodeInput" 

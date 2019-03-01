@@ -1,7 +1,7 @@
 import { QrCodeProvider } from './../../providers/qr-code/qr-code';
 import { BasePage } from './../base-page.page';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { QRCodeComponent } from 'angularx-qrcode';
 import domtoimage from 'dom-to-image';
 
@@ -27,9 +27,14 @@ export class CreateQrCodePage extends BasePage {
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
-                private qrCodeProvider: QrCodeProvider) {
+                private qrCodeProvider: QrCodeProvider,
+                public alertCtrl: AlertController) {
         super();
         this.pageTitle = "Génération d'un QRCode";
+    }
+
+    generate(): void {
+        this.qrCodeGenerated = true;
     }
 
     share(): void {
@@ -39,12 +44,21 @@ export class CreateQrCodePage extends BasePage {
             this.qrCodeProvider.shareQRCode(dataUrl);
         })
         .catch((error) => {
-            console.log('error', error);
+            this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard !');
         });
     }
 
     canShowQRCode(): boolean {
-        return this.qrCodeInput !== '' && this.qrCodeInput !== undefined;
+        return this.qrCodeInput !== '' && this.qrCodeInput !== undefined && this.qrCodeGenerated;
+    }
+
+    private showMessage(title: string, message: string): void {
+        const alert = this.alertCtrl.create({
+            title: title,
+            subTitle: message,
+            buttons: ['Ok']
+        });
+        alert.present();
     }
 
 }
