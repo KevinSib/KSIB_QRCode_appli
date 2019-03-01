@@ -1,7 +1,10 @@
 # QRCode_appli
 
-Ce dépôt contient une base pour développer une application Android/iOS de génération de QR code.
+Ce dépôt contient une base pour développer une application Android 
+de génération et lecture de QR code.
 
 L'application utilise Ionic v3.9.2.
 
-Un provider QrCodeProvider a été préparé. Ce provider devra fournir au moins une fonction de génération de QRCode.
+Exercice réalisé par Kévin Sibué : M2 Mobile et Iot.
+
+N'oubliez pas de faire un "npm i" pour télécharger les dépendances.
