@@ -27,4 +27,12 @@ export class ReadQrCodePage extends BasePage {
         console.log('ionViewDidLoad ReadQrCodePage');
     }
 
+    openFile(): void {
+
+    }
+
+    openScanner(): void {
+        
+    }
+
 }
