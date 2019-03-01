@@ -2,7 +2,7 @@ import { HistoricProvider } from './../../providers/historic/historic';
 import { HistoricItem } from './../../models/historic-item.model';
 import { BasePage } from './../base-page.page';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the HistoricPage page.
@@ -22,8 +22,9 @@ export class HistoricPage extends BasePage {
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
+                public alertCtrl: AlertController,
                 public historicService: HistoricProvider) {
-        super();
+        super(alertCtrl);
         this.pageTitle = "Historique";
     }
 
@@ -33,12 +34,12 @@ export class HistoricPage extends BasePage {
 
     doRefresh(event: any): void {
         this.refreshData(true)
-            .then(() => {
-                event.target.complete();
+            .then((res) => {
+                event.complete();
             })
-            .catch(() => {
-                //this.modalService.showAlert('DEFAULT_SUBTITLE_ERROR_MESSAGE', 'ERROR_LOADING_FAVORITES');
-                event.target.complete();
+            .catch((err) => {
+                this.showMessage('Oups !', 'Impossible de rafraîchir votre historique.');
+                event.complete();
             });
     }
 
@@ -47,10 +48,11 @@ export class HistoricPage extends BasePage {
             this.historicService.getHistoric(force)
                 .then((res) => {
                     this.items = res;
-                    resolve();
+                    resolve(res);
                 })
                 .catch((err) => {
-                    reject();
+                    console.log('err', err);
+                    reject(err);
                 });
         });
     }

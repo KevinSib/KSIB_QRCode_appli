@@ -32,7 +32,7 @@ export class CreateQrCodePage extends BasePage {
                 private qrCodeProvider: QrCodeProvider,
                 public alertCtrl: AlertController,
                 private historicProvider: HistoricProvider) {
-        super();
+        super(alertCtrl);
         this.pageTitle = "Génération d'un QRCode";
     }
 
@@ -61,15 +61,6 @@ export class CreateQrCodePage extends BasePage {
 
     canShowQRCode(): boolean {
         return this.qrCodeInput !== '' && this.qrCodeInput !== undefined && this.qrCodeGenerated;
-    }
-
-    private showMessage(title: string, message: string): void {
-        const alert = this.alertCtrl.create({
-            title: title,
-            subTitle: message,
-            buttons: ['Ok']
-        });
-        alert.present();
     }
 
 }

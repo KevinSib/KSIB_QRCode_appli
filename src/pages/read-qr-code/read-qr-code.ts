@@ -1,6 +1,6 @@
 import { BasePage } from './../base-page.page';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the ReadQrCodePage page.
@@ -16,8 +16,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ReadQrCodePage extends BasePage {
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
-        super();
+    constructor(public navCtrl: NavController, 
+                public navParams: NavParams,
+                public alertCtrl: AlertController) {
+        super(alertCtrl);
         this.pageTitle = "Lecture d'un QRCode";
     }
 
