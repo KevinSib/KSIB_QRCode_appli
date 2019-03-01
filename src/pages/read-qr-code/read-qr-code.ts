@@ -1,3 +1,5 @@
+import { ScannerError } from './../../models/scanner.error.enum';
+import { QrCodeProvider } from './../../providers/qr-code/qr-code';
 import { BasePage } from './../base-page.page';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
@@ -18,13 +20,34 @@ export class ReadQrCodePage extends BasePage {
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
-                public alertCtrl: AlertController) {
+                public alertCtrl: AlertController,
+                private qrCodeProvider: QrCodeProvider) {
         super(alertCtrl);
         this.pageTitle = "Lecture d'un QRCode";
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad ReadQrCodePage');
+    }
+
+    openFile(): void {
+        this.parseQRCode(this.qrCodeProvider.scanQRCodeFromFile());
+    }
+
+    openScanner(): void {
+        this.parseQRCode(this.qrCodeProvider.scanQRCode());
+    }
+
+    private parseQRCode(action: Promise<string>): void {
+        action
+        .then((txt) => {
+            this.showMessage('QRCode', 'Le QRCode contient : ' + txt);
+        })
+        .catch((err) => {
+            if (err === ScannerError.UNKNOW) {
+                this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard.');
+            }
+        });
     }
 
 }
