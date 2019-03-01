@@ -1,10 +1,11 @@
+import { HistoricPage } from './../pages/historic/historic';
+import { ReadQrCodePage } from './../pages/read-qr-code/read-qr-code';
+import { CreateQrCodePage } from './../pages/create-qr-code/create-qr-code';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,8 +15,9 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage
+    CreateQrCodePage,
+    ReadQrCodePage,
+    HistoricPage
   ],
   imports: [
     BrowserModule,
@@ -25,8 +27,9 @@ import { HttpClientModule } from '@angular/common/http';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ListPage
+    CreateQrCodePage,
+    ReadQrCodePage,
+    HistoricPage
   ],
   providers: [
     StatusBar,

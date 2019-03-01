@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the CreateQrCodePage page.
+ * Generated class for the ReadQrCodePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -11,18 +11,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-create-qr-code',
-  templateUrl: 'create-qr-code.html',
+  selector: 'page-read-qr-code',
+  templateUrl: 'read-qr-code.html',
 })
-export class CreateQrCodePage extends BasePage {
+export class ReadQrCodePage extends BasePage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams) {
         super();
-        this.pageTitle = "Génération d'un QRCode";
+        this.pageTitle = "Lecture d'un QRCode";
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad CreateQrCodePage');
+        console.log('ionViewDidLoad ReadQrCodePage');
     }
 
 }
