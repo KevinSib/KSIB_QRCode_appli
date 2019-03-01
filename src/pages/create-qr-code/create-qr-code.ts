@@ -3,7 +3,7 @@ import { HistoricProvider } from './../../providers/historic/historic';
 import { QrCodeProvider } from './../../providers/qr-code/qr-code';
 import { BasePage } from './../base-page.page';
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { QRCodeComponent } from 'angularx-qrcode';
 import domtoimage from 'dom-to-image';
 
@@ -31,7 +31,8 @@ export class CreateQrCodePage extends BasePage {
                 public navParams: NavParams,
                 private qrCodeProvider: QrCodeProvider,
                 public alertCtrl: AlertController,
-                private historicProvider: HistoricProvider) {
+                private historicProvider: HistoricProvider,
+                public loadingCtrl: LoadingController) {
         super(alertCtrl);
         this.pageTitle = "Génération d'un QRCode";
     }
@@ -50,11 +51,18 @@ export class CreateQrCodePage extends BasePage {
 
     share(): void {
         const svgData = this.qrCodeRender.el.nativeElement;
+        const loader = this.loadingCtrl.create({
+            content: "Please wait...",
+            duration: 3000
+          });
+        loader.present();
         domtoimage.toBlob(svgData)
         .then((dataUrl) => {
+            loader.dismiss();
             this.qrCodeProvider.shareQRCode(dataUrl);
         })
         .catch((error) => {
+            loader.dismiss();
             this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard !');
         });
     }
