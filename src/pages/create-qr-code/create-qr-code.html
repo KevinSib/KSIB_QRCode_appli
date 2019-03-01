@@ -7,7 +7,20 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <ion-input type="text"></ion-input>
-    <button ion-button (click)="generate()">Générer</button>
-    <button ion-button color="secondary" *ngIf="qrCodeGenerated" (click)="share()">Partager</button>
+    <ion-grid>
+        <ion-row>
+            <ion-card>
+                <ion-input [(ngModel)]="qrCodeInput" type="text"></ion-input>
+            </ion-card>
+        </ion-row>
+        <ion-row>
+            <qrcode [qrdata]="qrCodeInput" 
+                    [size]="150"
+                    [usesvg]="true"
+                    *ngIf="canShowQRCode()"></qrcode>
+        </ion-row>
+        <ion-row>
+            <button ion-button color="secondary" *ngIf="canShowQRCode()" (click)="share()">Partager</button>
+        </ion-row>
+    </ion-grid>
 </ion-content>
