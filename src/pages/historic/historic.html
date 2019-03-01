@@ -10,7 +10,8 @@
     <div *ngIf="items.length > 0">
         <ion-list *ngFor="let historic of items">
             <ion-item>
-                <ion-label>{{historic.value}} {{historic.date}}</ion-label>
+                <h2>{{ historic.value }}</h2>
+                <h3>{{ historic.date | date :'short' }}</h3>
             </ion-item>  
         </ion-list>
     </div>
