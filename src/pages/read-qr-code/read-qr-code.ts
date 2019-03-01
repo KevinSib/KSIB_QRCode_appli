@@ -40,9 +40,7 @@ export class ReadQrCodePage extends BasePage {
                 this.showMessage('QRCode', 'Le QRCode contient : ' + txt);
             })
             .catch((err) => {
-                if (err === ScannerError.PERMISSION_DENIED || err === ScannerError.PERMISSION_DENIED_PERMANENTLY) {
-                    this.showMessage('Oups !', 'Nous ne pouvons pas scanner sans votre permission. Merci d\'accèder à vos permissions et d\'accepter la permission de la camera');
-                } else {
+                if (err === ScannerError.UNKNOW) {
                     this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard.');
                 }
             });

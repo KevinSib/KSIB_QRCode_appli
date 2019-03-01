@@ -106,10 +106,15 @@ export class QrCodeProvider {
         return new Promise<string>((resolve, reject) => {
             this.barcodeScanner.scan()
             .then(barcodeData => {
-                console.log('Barcode data', barcodeData);
+                if (barcodeData.cancelled) {
+                    reject(ScannerError.CANCELED);
+                } else {
+                    resolve(barcodeData.text);
+                }
             })
             .catch(err => {
                 console.log('Error', err);
+                reject(ScannerError.UNKNOW);
             });
         });
     }
