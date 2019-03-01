@@ -1,6 +1,9 @@
+import { QrCodeProvider } from './../../providers/qr-code/qr-code';
 import { BasePage } from './../base-page.page';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { QRCodeComponent } from 'angularx-qrcode';
+import domtoimage from 'dom-to-image';
 
 /**
  * Generated class for the CreateQrCodePage page.
@@ -16,13 +19,32 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CreateQrCodePage extends BasePage {
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    qrCodeInput: string = "";
+    qrCodeGenerated: boolean = false;
+
+    @ViewChild(QRCodeComponent) 
+    private qrCodeRender: QRCodeComponent;
+
+    constructor(public navCtrl: NavController, 
+                public navParams: NavParams,
+                private qrCodeProvider: QrCodeProvider) {
         super();
         this.pageTitle = "Génération d'un QRCode";
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad CreateQrCodePage');
+    share(): void {
+        const svgData = this.qrCodeRender.el.nativeElement;
+        domtoimage.toBlob(svgData)
+        .then((dataUrl) => {
+            this.qrCodeProvider.shareQRCode(dataUrl);
+        })
+        .catch((error) => {
+            console.log('error', error);
+        });
+    }
+
+    canShowQRCode(): boolean {
+        return this.qrCodeInput !== '' && this.qrCodeInput !== undefined;
     }
 
 }

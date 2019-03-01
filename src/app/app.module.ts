@@ -1,3 +1,5 @@
+import { FilePath } from '@ionic-native/file-path';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { HistoricPage } from './../pages/historic/historic';
 import { ReadQrCodePage } from './../pages/read-qr-code/read-qr-code';
 import { CreateQrCodePage } from './../pages/create-qr-code/create-qr-code';
@@ -12,16 +14,21 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { QrCodeProvider } from '../providers/qr-code/qr-code';
 import { HttpClientModule } from '@angular/common/http';
 
+import { QRCodeModule } from 'angularx-qrcode';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { File } from '@ionic-native/file';
+
 @NgModule({
   declarations: [
     MyApp,
     CreateQrCodePage,
     ReadQrCodePage,
-    HistoricPage
+    HistoricPage,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    QRCodeModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -35,7 +42,11 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    QrCodeProvider
+    QrCodeProvider,
+    SocialSharing,
+    AndroidPermissions,
+    File,
+    FilePath
   ]
 })
 export class AppModule {}
