@@ -1,9 +1,11 @@
+import { ScannerError } from './../../models/scanner.error.enum';
 import { HttpClient } from '@angular/common/http';
 import { FilePath } from '@ionic-native/file-path';
 import { Injectable } from '@angular/core';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { File } from '@ionic-native/file';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 /*
   Generated class for the QrCodeProvider provider.
@@ -20,7 +22,8 @@ export class QrCodeProvider {
                 private filePath: FilePath,
                 private socialSharing: SocialSharing,
                 private androidPermissions: AndroidPermissions,
-                private file: File) {
+                private file: File,
+                private barcodeScanner: BarcodeScanner) {
         
     }
 
@@ -97,6 +100,18 @@ export class QrCodeProvider {
 
     resolvePath(path: string): Promise<string> {
         return this.filePath.resolveNativePath(path);
+    }
+
+    scanQRCode(): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            this.barcodeScanner.scan()
+            .then(barcodeData => {
+                console.log('Barcode data', barcodeData);
+            })
+            .catch(err => {
+                console.log('Error', err);
+            });
+        });
     }
 
 }

@@ -20,6 +20,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { File } from '@ionic-native/file';
 import { HistoricProvider } from '../providers/historic/historic';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -50,7 +52,8 @@ import { HistoricProvider } from '../providers/historic/historic';
     File,
     FilePath,
     HistoricProvider,
-    NativeStorage
-  ]
+    NativeStorage,  
+    BarcodeScanner
+   ]
 })
 export class AppModule {}

@@ -1,3 +1,5 @@
+import { ScannerError } from './../../models/scanner.error.enum';
+import { QrCodeProvider } from './../../providers/qr-code/qr-code';
 import { BasePage } from './../base-page.page';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
@@ -18,7 +20,8 @@ export class ReadQrCodePage extends BasePage {
 
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
-                public alertCtrl: AlertController) {
+                public alertCtrl: AlertController,
+                private qrCodeProvider: QrCodeProvider) {
         super(alertCtrl);
         this.pageTitle = "Lecture d'un QRCode";
     }
@@ -32,7 +35,17 @@ export class ReadQrCodePage extends BasePage {
     }
 
     openScanner(): void {
-        
+        this.qrCodeProvider.scanQRCode()
+            .then((txt) => {
+                this.showMessage('QRCode', 'Le QRCode contient : ' + txt);
+            })
+            .catch((err) => {
+                if (err === ScannerError.PERMISSION_DENIED || err === ScannerError.PERMISSION_DENIED_PERMANENTLY) {
+                    this.showMessage('Oups !', 'Nous ne pouvons pas scanner sans votre permission. Merci d\'accèder à vos permissions et d\'accepter la permission de la camera');
+                } else {
+                    this.showMessage('Oups !', 'Une erreur est survenue. Merci de réessayer plus tard.');
+                }
+            });
     }
 
 }
