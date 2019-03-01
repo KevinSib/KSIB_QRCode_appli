@@ -1,3 +1,5 @@
+import { HistoricItem } from './../../models/historic-item.model';
+import { HistoricProvider } from './../../providers/historic/historic';
 import { QrCodeProvider } from './../../providers/qr-code/qr-code';
 import { BasePage } from './../base-page.page';
 import { Component, ViewChild } from '@angular/core';
@@ -28,13 +30,22 @@ export class CreateQrCodePage extends BasePage {
     constructor(public navCtrl: NavController, 
                 public navParams: NavParams,
                 private qrCodeProvider: QrCodeProvider,
-                public alertCtrl: AlertController) {
+                public alertCtrl: AlertController,
+                private historicProvider: HistoricProvider) {
         super();
         this.pageTitle = "Génération d'un QRCode";
     }
 
     generate(): void {
+        
+        const newQRCode = new HistoricItem();
+        newQRCode.value = this.qrCodeInput;
+        newQRCode.date = new Date();
+
+        this.historicProvider.addToHistoric(newQRCode);
+
         this.qrCodeGenerated = true;
+
     }
 
     share(): void {

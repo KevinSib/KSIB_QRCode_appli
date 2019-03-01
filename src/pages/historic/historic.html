@@ -7,6 +7,20 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-
+    <div *ngIf="items.length > 0">
+        <ion-list *ngFor="let historic of items">
+            <ion-item>
+                <ion-label>{{historic.value}} {{historic.date}}</ion-label>
+            </ion-item>  
+        </ion-list>
+    </div>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon="arrow-dropdown"
+            pullingText="Tirez pour rafraîchir"
+            refreshingSpinner="circles"
+            refreshingText="Chargement de votre historique ...">
+        </ion-refresher-content>
+    </ion-refresher>
 </ion-content>
       

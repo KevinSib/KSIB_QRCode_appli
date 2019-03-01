@@ -1,3 +1,4 @@
+import { NativeStorage } from '@ionic-native/native-storage';
 import { FilePath } from '@ionic-native/file-path';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { HistoricPage } from './../pages/historic/historic';
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { QRCodeModule } from 'angularx-qrcode';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { File } from '@ionic-native/file';
+import { HistoricProvider } from '../providers/historic/historic';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { File } from '@ionic-native/file';
     SocialSharing,
     AndroidPermissions,
     File,
-    FilePath
+    FilePath,
+    HistoricProvider,
+    NativeStorage
   ]
 })
 export class AppModule {}
