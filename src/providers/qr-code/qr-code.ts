@@ -10,13 +10,13 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class QrCodeProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello QrCodeProvider Provider');
-  }
+    constructor(public http: HttpClient) {
+        
+    }
 
-  generate(text: string): Promise<string> {
-    //TODO: Code this
-    return Promise.resolve('');
-  }
+    generate(text: string): Promise<string> {
+        //TODO: Code this
+        return Promise.resolve('');
+    }
 
 }

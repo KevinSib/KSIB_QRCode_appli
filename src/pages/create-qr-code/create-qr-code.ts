@@ -16,13 +16,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CreateQrCodePage extends BasePage {
 
+    qrCodeInput: string = "";
+    qrCodeGenerated: boolean = false;
+
     constructor(public navCtrl: NavController, public navParams: NavParams) {
         super();
         this.pageTitle = "Génération d'un QRCode";
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad CreateQrCodePage');
+    generate(): void {
+
+    }
+
+    share(): void {
+
     }
 
 }

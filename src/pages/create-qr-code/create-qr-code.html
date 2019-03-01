@@ -7,5 +7,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-
+    <ion-input type="text"></ion-input>
+    <button ion-button (click)="generate()">Générer</button>
+    <button ion-button color="secondary" *ngIf="qrCodeGenerated" (click)="share()">Partager</button>
 </ion-content>
