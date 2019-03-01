@@ -1,3 +1,4 @@
+import { BasePage } from './../base-page.page';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -13,13 +14,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-read-qr-code',
   templateUrl: 'read-qr-code.html',
 })
-export class ReadQrCodePage {
+export class ReadQrCodePage extends BasePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    constructor(public navCtrl: NavController, public navParams: NavParams) {
+        super();
+        this.pageTitle = "Lecture d'un QRCode";
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ReadQrCodePage');
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad ReadQrCodePage');
+    }
 
 }
