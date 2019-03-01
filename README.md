@@ -1,4 +1,4 @@
-# QRCode_appli
+# KSIB_QRCode_appli
 
 Ce dépôt contient une base pour développer une application Android 
 de génération et lecture de QR code.
